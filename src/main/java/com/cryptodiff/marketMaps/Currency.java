@@ -1,4 +1,4 @@
-package com.example.zespolowy;
+package com.cryptodiff.marketMaps;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
