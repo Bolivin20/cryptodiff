@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -42,7 +43,10 @@ public class BitstampMarket implements MarketMaps{
                 JSONObject obj = data.getJSONObject(i);
                 String pair = obj.getString("pair");
                 double open = obj.getDouble("open");
-                bitstampPrices.put(pair, open);
+                if (pair.endsWith("USD")) {
+                    String[] parts = pair.split("/");
+                    bitstampPrices.put(parts[0].toLowerCase(), open);
+                }
             }
 
 
@@ -50,7 +54,6 @@ public class BitstampMarket implements MarketMaps{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getOnlyUsdtPrices(bitstampPrices);
         return bitstampPrices;
     }
 
