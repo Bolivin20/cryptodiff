@@ -1,0 +1,42 @@
+.searchBar {
+    display: flex;
+    padding: 0 2em;
+    gap: 2em;
+    align-items: flex-end;
+}
+
+.category {
+    width: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category>p {
+    margin: 0;
+    color: white;
+}
+
+.category>hr {
+    width: 100%;
+    border-color: #0E4BE7;
+    border-width: 2px;
+}
+
+.content {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tableLable {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.tableLable>p {
+    width: 15%;
+}
