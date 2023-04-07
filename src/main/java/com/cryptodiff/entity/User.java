@@ -1,5 +1,7 @@
 package com.cryptodiff.entity;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +11,13 @@ public class User {
     @Id
     @Column(name = "id_user", nullable = false)
     private Long id_user;
+
+    public User(String email, String encode) {
+    }
+
+    public User() {
+
+    }
 
     public Long getId_user() {
         return id_user;
@@ -38,5 +47,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserDetails get() {
+        return null;
     }
 }
