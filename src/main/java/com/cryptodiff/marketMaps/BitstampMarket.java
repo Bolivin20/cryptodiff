@@ -10,13 +10,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 
 @Component
-public class BitstampMarket implements MarketMaps{
+public class BitstampMarket  extends MarketMaps{
 
     private static final String BITSTAMP_API_URL = "https://www.bitstamp.net/api/v2/ticker/";
+
+
 
     @Override
     public HashMap<String, Double> getMarketPrices() {
@@ -57,14 +58,14 @@ public class BitstampMarket implements MarketMaps{
         return bitstampPrices;
     }
 
-    @Override
-    public void getOnlyUsdtPrices(HashMap<String, Double> marketPrices) {
-        Iterator<Map.Entry<String, Double>> it = marketPrices.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Double> entry = it.next();
-            if (!entry.getKey().endsWith("USD")) {
-                it.remove();
-            }
-        }
-    }
+//    @Override
+//    public void getOnlyUsdtPrices(HashMap<String, Double> marketPrices) {
+//        Iterator<Map.Entry<String, Double>> it = marketPrices.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry<String, Double> entry = it.next();
+//            if (!entry.getKey().endsWith("USD")) {
+//                it.remove();
+//            }
+//        }
+//    }
 }

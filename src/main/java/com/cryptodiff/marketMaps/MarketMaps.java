@@ -3,11 +3,16 @@ package com.cryptodiff.marketMaps;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Component
-public interface MarketMaps {
+public abstract class MarketMaps {
 
-    HashMap<String, Double> getMarketPrices();
-    //metoda ktora zwraca tylko ceny krypto w dolarach
-    void getOnlyUsdtPrices(HashMap<String, Double> marketPrices);
+
+    abstract HashMap<String, Double> getMarketPrices();
+
+    HashMap<String, Double> getOnlyUsdtPrices(HashMap<String, Double> marketPrices, String currency) {
+        return marketPrices.keySet().stream().filter(k -> k.contains(currency)).collect(Collectors.toMap(k -> k.replace(currency, "").toLowerCase(), v -> marketPrices.get(v), (v1, v2) -> v1, HashMap::new));
+
+    }
 }

@@ -3,6 +3,7 @@ package com.cryptodiff.marketMaps;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Component
-public class HuobiMarket implements MarketMaps{
+public class HuobiMarket extends MarketMaps {
 
     private static final String HUOBI_API_URL = "https://api.huobi.pro/market/tickers";
 
@@ -46,18 +47,19 @@ public class HuobiMarket implements MarketMaps{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getOnlyUsdtPrices(huobiPrices);
-        return huobiPrices;
+        return getOnlyUsdtPrices(huobiPrices, "usdt");
     }
 
-    @Override
-    public void getOnlyUsdtPrices(HashMap<String, Double> marketPrices) {
-        Iterator<Map.Entry<String, Double>> it = marketPrices.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Double> entry = it.next();
-            if (!entry.getKey().endsWith("usdt")) {
-                it.remove();
-            }
-        }
-    }
+//    @Override
+//    public void getOnlyUsdtPrices(HashMap<String, Double> marketPrices) {
+//        Iterator<Map.Entry<String, Double>> it = marketPrices.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry<String, Double> entry = it.next();
+//            if (!entry.getKey().endsWith("usdt")) {
+//                it.remove();
+//            }
+//        }
+//    }
+
+
 }
