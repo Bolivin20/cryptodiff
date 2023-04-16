@@ -27,19 +27,19 @@ public class MarketsManager {
     public void createListOfPrices(List<HashMap<String, Double>> markets, List<Currency> currenciesToSet, List<Currency> revertCurrenciesToSet, List<String> namesOfMarkets) {
         for (int i = 0; i < markets.size(); i++) {
             for (String key : markets.get(i).keySet()) {
-                TreeMap<Double, String> prices = new TreeMap<>();
-                TreeMap<Double, String> revertPrices = new TreeMap<>(Comparator.reverseOrder());
-                prices.put(markets.get(i).get(key), namesOfMarkets.get(i));
-                revertPrices.put(markets.get(i).get(key), namesOfMarkets.get(i));
+                Map<String, Double> prices = new HashMap<>();
+                Map<String, Double> revertPrices = new HashMap<>();
+                prices.put(namesOfMarkets.get(i), markets.get(i).get(key));
+                revertPrices.put(namesOfMarkets.get(i), markets.get(i).get(key));
                 for (int j = i + 1; j < markets.size(); j++) {
                     if (markets.get(j).containsKey(key)) {
-                        prices.put(markets.get(j).get(key), namesOfMarkets.get(j));
-                        revertPrices.put(markets.get(j).get(key), namesOfMarkets.get(j));
+                        prices.put(namesOfMarkets.get(j), markets.get(j).get(key));
+                        revertPrices.put(namesOfMarkets.get(j), markets.get(j).get(key));
                     }
                 }
 
-                Currency currency = new Currency(key, prices);
-                Currency revertCurrency = new Currency(key, revertPrices);
+                Currency currency = new Currency(key, getSortedMapAsc(prices));
+                Currency revertCurrency = new Currency(key, getSortedMapDesc(revertPrices));
                 currenciesToSet.add(currency);
                 revertCurrenciesToSet.add(revertCurrency);
             }
@@ -50,6 +50,7 @@ public class MarketsManager {
 
     @Scheduled(fixedDelay = 900000, initialDelay = 1)
     public void getDataFromMarkets() {
+
         HashMap<String, Double> binance = binanceMarket.getMarketPrices();
         HashMap<String, Double> huobi = huobiMarket.getMarketPrices();
         HashMap<String, Double> bitstamp = bitstampMarket.getMarketPrices();
@@ -75,5 +76,34 @@ public class MarketsManager {
 
     public List<Currency> getCurrenciesWithRevertPricesMap() {
         return currenciesWithRevertPricesMap;
+    }
+
+    public TreeMap<String, Double> getSortedMapDesc(Map<String, Double> map) {
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare(String k1, String k2) {
+                return map.get(k2).compareTo(map.get(k1));
+            }
+        };
+        return (getSortedMap(map, comparator));
+    }
+
+    public TreeMap<String, Double> getSortedMapAsc(Map<String, Double> map) {
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare(String k1, String k2) {
+                int option = map.get(k2).compareTo(map.get(k1));
+                if (option == 0) return 0;
+                else return -option;
+
+            }
+        };
+        return (getSortedMap(map, comparator));
+    }
+
+    public TreeMap<String, Double> getSortedMap(Map<String, Double> map, Comparator comparator) {
+
+        TreeMap<String, Double> sorted = new TreeMap<String, Double>(comparator);
+        sorted.putAll(map);
+
+        return sorted;
     }
 }

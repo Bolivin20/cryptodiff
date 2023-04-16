@@ -11,14 +11,14 @@ public class Currency implements Comparable<Currency> {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Double price;
 
-    private TreeMap<Double, String> pricesMap = new TreeMap<>();
+    private TreeMap<String, Double> pricesMap = new TreeMap<>();
 
 
     public Currency() {
     }
 
 
-    public Currency(String symbol, TreeMap<Double, String> pricesMap) {
+    public Currency(String symbol, TreeMap<String, Double>  pricesMap) {
         this.symbol = symbol;
         this.pricesMap = pricesMap;
     }
@@ -39,17 +39,17 @@ public class Currency implements Comparable<Currency> {
         return price;
     }
 
-    public TreeMap<Double, String> getPricesMap() {
+    public TreeMap<String, Double>  getPricesMap() {
         return pricesMap;
     }
 
-    public void setPricesMap(TreeMap<Double, String> pricesMap) {
+    public void setPricesMap(TreeMap<String, Double>  pricesMap) {
         this.pricesMap = pricesMap;
     }
 
     @Override
     public int compareTo(Currency o) {
-        int priceBool = Double.compare(this.pricesMap.firstEntry().getKey(), o.getPricesMap().firstEntry().getKey());
+        int priceBool = Double.compare(this.pricesMap.firstEntry().getValue(), o.getPricesMap().firstEntry().getValue());
         int sizeBool = Integer.compare(this.pricesMap.size(), o.getPricesMap().size());
         if (priceBool + sizeBool > 0)
             return 1;
