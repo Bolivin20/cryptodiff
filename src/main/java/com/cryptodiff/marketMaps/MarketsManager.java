@@ -4,6 +4,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -24,11 +25,11 @@ public class MarketsManager {
         currencies = new ArrayList<>();
     }
 
-    public void createListOfPrices(List<HashMap<String, Double>> markets, List<Currency> currenciesToSet, List<Currency> revertCurrenciesToSet, List<String> namesOfMarkets) {
+    public void createListOfPrices(List<HashMap<String, BigDecimal>> markets, List<Currency> currenciesToSet, List<Currency> revertCurrenciesToSet, List<String> namesOfMarkets) {
         for (int i = 0; i < markets.size(); i++) {
             for (String key : markets.get(i).keySet()) {
-                Map<String, Double> prices = new HashMap<>();
-                Map<String, Double> revertPrices = new HashMap<>();
+                Map<String, BigDecimal> prices = new HashMap<>();
+                Map<String, BigDecimal> revertPrices = new HashMap<>();
                 prices.put(namesOfMarkets.get(i), markets.get(i).get(key));
                 revertPrices.put(namesOfMarkets.get(i), markets.get(i).get(key));
                 for (int j = i + 1; j < markets.size(); j++) {
@@ -51,12 +52,12 @@ public class MarketsManager {
     @Scheduled(fixedDelay = 900000, initialDelay = 1)
     public void getDataFromMarkets() {
 
-        HashMap<String, Double> binance = binanceMarket.getMarketPrices();
-        HashMap<String, Double> huobi = huobiMarket.getMarketPrices();
-        HashMap<String, Double> bitstamp = bitstampMarket.getMarketPrices();
+        HashMap<String, BigDecimal> binance = binanceMarket.getMarketPrices();
+        HashMap<String, BigDecimal> huobi = huobiMarket.getMarketPrices();
+        HashMap<String, BigDecimal> bitstamp = bitstampMarket.getMarketPrices();
         List<Currency> currenciesToSet = new ArrayList<>();
         List<Currency> revertCurrenciesToSet = new ArrayList<>();
-        List<HashMap<String, Double>> markets = new ArrayList<>();
+        List<HashMap<String, BigDecimal>> markets = new ArrayList<>();
         List<String> namesOfMarkets = new ArrayList<>();
         markets.add(binance);
         markets.add(huobi);
@@ -78,7 +79,7 @@ public class MarketsManager {
         return currenciesWithRevertPricesMap;
     }
 
-    public TreeMap<String, Double> getSortedMapDesc(Map<String, Double> map) {
+    public TreeMap<String, BigDecimal> getSortedMapDesc(Map<String, BigDecimal> map) {
         Comparator<String> comparator = new Comparator<String>() {
             public int compare(String k1, String k2) {
                 return map.get(k2).compareTo(map.get(k1));
@@ -87,7 +88,7 @@ public class MarketsManager {
         return (getSortedMap(map, comparator));
     }
 
-    public TreeMap<String, Double> getSortedMapAsc(Map<String, Double> map) {
+    public TreeMap<String, BigDecimal> getSortedMapAsc(Map<String, BigDecimal> map) {
         Comparator<String> comparator = new Comparator<String>() {
             public int compare(String k1, String k2) {
                 int option = map.get(k2).compareTo(map.get(k1));
@@ -99,9 +100,9 @@ public class MarketsManager {
         return (getSortedMap(map, comparator));
     }
 
-    public TreeMap<String, Double> getSortedMap(Map<String, Double> map, Comparator comparator) {
+    public TreeMap<String, BigDecimal> getSortedMap(Map<String, BigDecimal> map, Comparator comparator) {
 
-        TreeMap<String, Double> sorted = new TreeMap<String, Double>(comparator);
+        TreeMap<String, BigDecimal> sorted = new TreeMap<String, BigDecimal>(comparator);
         sorted.putAll(map);
 
         return sorted;

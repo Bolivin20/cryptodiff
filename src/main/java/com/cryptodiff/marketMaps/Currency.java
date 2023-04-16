@@ -3,22 +3,23 @@ package com.cryptodiff.marketMaps;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
 import java.util.TreeMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Currency implements Comparable<Currency> {
     private String symbol;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Double price;
+    private BigDecimal price;
 
-    private TreeMap<String, Double> pricesMap = new TreeMap<>();
+    private TreeMap<String, BigDecimal> pricesMap = new TreeMap<>();
 
 
     public Currency() {
     }
 
 
-    public Currency(String symbol, TreeMap<String, Double>  pricesMap) {
+    public Currency(String symbol, TreeMap<String, BigDecimal>  pricesMap) {
         this.symbol = symbol;
         this.pricesMap = pricesMap;
     }
@@ -31,25 +32,25 @@ public class Currency implements Comparable<Currency> {
         return symbol;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public TreeMap<String, Double>  getPricesMap() {
+    public TreeMap<String, BigDecimal>  getPricesMap() {
         return pricesMap;
     }
 
-    public void setPricesMap(TreeMap<String, Double>  pricesMap) {
+    public void setPricesMap(TreeMap<String, BigDecimal>  pricesMap) {
         this.pricesMap = pricesMap;
     }
 
     @Override
     public int compareTo(Currency o) {
-        int priceBool = Double.compare(this.pricesMap.firstEntry().getValue(), o.getPricesMap().firstEntry().getValue());
+        int priceBool = this.pricesMap.firstEntry().getValue().compareTo(o.getPricesMap().firstEntry().getValue());
         int sizeBool = Integer.compare(this.pricesMap.size(), o.getPricesMap().size());
         if (priceBool + sizeBool > 0)
             return 1;

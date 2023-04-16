@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,10 +19,9 @@ public class BitstampMarket  extends MarketMaps{
     private static final String BITSTAMP_API_URL = "https://www.bitstamp.net/api/v2/ticker/";
 
 
-
     @Override
-    public HashMap<String, Double> getMarketPrices() {
-        HashMap<String, Double> bitstampPrices = new HashMap<>();
+    public HashMap<String, BigDecimal> getMarketPrices() {
+        HashMap<String, BigDecimal> bitstampPrices = new HashMap<>();
 
         try {
             URL url = new URL(BITSTAMP_API_URL);
@@ -43,7 +43,7 @@ public class BitstampMarket  extends MarketMaps{
             for (int i = 0; i < data.length(); i++) {
                 JSONObject obj = data.getJSONObject(i);
                 String pair = obj.getString("pair");
-                double open = obj.getDouble("open");
+                BigDecimal open = obj.getBigDecimal("open");
                 if (pair.endsWith("USD")) {
                     String[] parts = pair.split("/");
                     bitstampPrices.put(parts[0].toLowerCase(), open);

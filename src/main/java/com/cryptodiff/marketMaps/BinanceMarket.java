@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -26,10 +27,10 @@ public class BinanceMarket  extends MarketMaps{
 
 
     @Override
-    public HashMap<String, Double> getMarketPrices() {
+    public HashMap<String, BigDecimal> getMarketPrices() {
         ResponseEntity<List<Currency>> response = restTemplate.exchange(BINANCE_URL, HttpMethod.GET, null, new ParameterizedTypeReference<List<Currency>>() {
         });
-        HashMap<String, Double> currencies = (HashMap<String, Double>) response.getBody().stream().collect(Collectors.toMap(Currency::getSymbol,  c -> OptionalDouble.of(c.getPrice()).orElse(0.0)));
+        HashMap<String, BigDecimal> currencies = (HashMap<String,BigDecimal>) response.getBody().stream().collect(Collectors.toMap(Currency::getSymbol, c -> c.getPrice()));
 
         return getOnlyUsdtPrices(currencies, "USDT");
     }

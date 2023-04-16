@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,8 +19,8 @@ public class HuobiMarket extends MarketMaps {
     private static final String HUOBI_API_URL = "https://api.huobi.pro/market/tickers";
 
     @Override
-    public HashMap<String, Double> getMarketPrices() {
-        HashMap<String, Double> huobiPrices = new HashMap<>();
+    public HashMap<String, BigDecimal> getMarketPrices() {
+        HashMap<String, BigDecimal> huobiPrices = new HashMap<>();
         try {
             URL url = new URL(HUOBI_API_URL);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -40,7 +41,7 @@ public class HuobiMarket extends MarketMaps {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject obj = data.getJSONObject(i);
                 String symbol = obj.getString("symbol");
-                double open = obj.getDouble("open");
+                BigDecimal open = obj.getBigDecimal("open");
                 huobiPrices.put(symbol, open);
             }
 
