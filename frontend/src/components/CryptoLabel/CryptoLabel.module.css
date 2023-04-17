@@ -1,0 +1,21 @@
+.label {
+    border-top: 1px solid #433F3F;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+    color: white;
+}
+
+.label>p {
+    margin: 0;
+    width: 15%;
+}
+
+.market {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+}
