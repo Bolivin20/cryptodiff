@@ -1,0 +1,25 @@
+version: "3"
+services:
+  server-cryptodiff:
+    image: server-cryptodiff
+    restart: always
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db-cryptodiff
+    environment:
+      MYSQL_HOST: db-cryptodiff
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+  db-cryptodiff:
+    container_name: db-cryptodiff
+    image: mysql
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: cryptodiff
+      MYSQL_ROOT_PASSWORD: root
+        
