@@ -2,33 +2,37 @@ package com.cryptodiff.entity;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name="USERS")
 public class User {
     @Id
-    @Column(name = "id_user", nullable = false)
-    private Long id_user;
-
-    public User(String email, String encode) {
-    }
-
-    public User() {
-
-    }
-
-    public Long getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
-    }
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    public User() {
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -37,9 +41,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     public String getPassword() {
         return password;
@@ -51,5 +52,14 @@ public class User {
 
     public UserDetails get() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
