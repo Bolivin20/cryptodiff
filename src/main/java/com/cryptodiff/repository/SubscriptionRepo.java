@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface SubscriptionRepo extends JpaRepository<Subscription, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Subscription WHERE user_id= :user_id")
-    List<Subscription> findByUserId(@Param("user_id") Long id);
+    @Query(nativeQuery = true, value = "SELECT id, symbol FROM Subscription WHERE user_id= :user_id")
+    List<Object[]> findSymbolByUserId(@Param("user_id") Long id);
 }

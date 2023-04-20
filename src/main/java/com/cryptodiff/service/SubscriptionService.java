@@ -18,7 +18,7 @@ public class SubscriptionService {
 
     public Subscription addSubsciption(Subscription subscription){ return subscriptionRepo.save(subscription);}
 
-    public List<Subscription> findSubscriptionByUserId(Long id){return subscriptionRepo.findByUserId(id);}
+    public List<Object[]> findSubscriptionByUserId(Long id){return subscriptionRepo.findSymbolByUserId(id);}
 
     public void deleteSubscription(Long id){
         subscriptionRepo.deleteById(id);

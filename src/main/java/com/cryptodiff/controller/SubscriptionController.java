@@ -24,16 +24,16 @@ public class SubscriptionController {
 
 
     @GetMapping("/SubscriptionsByUserId/{userId}")
-    public ResponseEntity<List<Subscription>> getAllSubscriptions(@PathVariable("userId") Long userid){
-        List<Subscription> subscriptions = subscriptionService.findSubscriptionByUserId(userid);
+    public ResponseEntity<List<Object[]>> getAllSubscriptions(@PathVariable("userId") Long userid){
+        List<Object[]> subscriptions = subscriptionService.findSubscriptionByUserId(userid);
         return new ResponseEntity<>(subscriptions, HttpStatus.OK);
     }
 
     @PostMapping("/addSubscription/{userId}")
-    public ResponseEntity<Subscription> addSubscription(@RequestBody Subscription subscription, @PathVariable("userId") Long userid){
+    public ResponseEntity<?> addSubscription(@RequestBody Subscription subscription, @PathVariable("userId") Long userid){
         subscription.setUser(userService.findUserById(userid));
-        Subscription newSubscription = subscriptionService.addSubsciption(subscription);
-        return new ResponseEntity<>(newSubscription, HttpStatus.CREATED);
+        subscriptionService.addSubsciption(subscription);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/deleteSubscription/{id}")
