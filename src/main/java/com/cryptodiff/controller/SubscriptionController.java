@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @Service
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;

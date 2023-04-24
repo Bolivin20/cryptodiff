@@ -1,6 +1,6 @@
 package com.cryptodiff.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Subscription {
