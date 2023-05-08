@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -16,6 +17,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 @RestController
+@RequestMapping("/api")
 @Service
 public class HistoricalPriceController {
 
