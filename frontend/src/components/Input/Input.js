@@ -6,7 +6,7 @@ import Eye from '../../images/eye.svg';
 
 function Input(props) {
 
-    const { placeholder, type, title, inputIcon, width } = props;
+    const { placeholder, type, title, inputIcon, width, value, onChange } = props;
     let secondIcon;
     if (type === 'password') {
         secondIcon = <img src={Eye} alt="letter icon"></img>;
@@ -17,7 +17,7 @@ function Input(props) {
             <p className={style.inputTitle}>{title}</p>
             <div className={style.inputContainer}>
                 <img src={inputIcon} alt="letter icon"></img>
-                <input type={type} placeholder={placeholder} className={style.inputStyle} />
+                <input type={type} placeholder={placeholder} className={style.inputStyle} value={value} onChange={onChange} />
                 {secondIcon}
             </div>
         </div>

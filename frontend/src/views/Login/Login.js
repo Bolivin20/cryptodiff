@@ -6,10 +6,45 @@ import Letter from '../../images/letter.svg';
 import Padlock from '../../images/padlock.svg';
 import Google from '../../images/google.svg';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, {useState} from 'react';
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+    const [email, setEmail]=useState("");
+    const [password, setPassword]=useState("");
+    const [errorMsg, setErrorMsg]=useState("");
+    const navigate = useNavigate();
+    const sendLoginRequest=(event) => 
+  {
+      event.preventDefault();
+      const data = { 
+        email:email,
+        password:password,
+      };
+    
+      fetch("http://localhost:8080/api/auth/authenticate", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+       
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.access_token);
+        navigate("/"); 
+      })
+      .catch((error) => {
+        console.log("Error: " + error);
+        setErrorMsg("Wrong email or password.");
+      });
+    };
 
     return (
         <div className={style.app}>
@@ -22,10 +57,13 @@ function Login() {
             </section>
             <section className={style.sidePanel}>
                 <h1>Log In</h1>
-                <Input placeholder="test@crypto.diff" type="text" title="Email Address" inputIcon={Letter} />
-                <Input placeholder="••••••••••••" type="password" title="Password" inputIcon={Padlock} />
+                <form onSubmit={sendLoginRequest}>
+                <Input placeholder="test@crypto.diff" type="text" title="Email Address" inputIcon={Letter} value={email} onChange={(event)=>setEmail(event.target.value)}/>
+                <Input placeholder="••••••••••••" type="password" title="Password" inputIcon={Padlock} value={password} onChange={(event)=>setPassword(event.target.value)}/>
                 <Button text='Sign In'></Button>
-                <p className={style.buttonText}>Don&apos;t have an account ? <Link to='/signup' className={style.link}>Sign up</Link></p>
+                <p className={style.errorMsg} onChange={(event)=>setErrorMsg(event.target.value)}>{errorMsg}</p>
+                </form>
+                <p className={style.buttonText}>Don&apos;t have an account ? <Link to='/api/auth/authenticate' className={style.link}>Sign up</Link></p>
                 <div className={style.orBlock}>
                     <hr></hr>
                     Or
