@@ -10,12 +10,11 @@ import React, { useEffect, useState } from 'react';
 
 function Start() {
   const [cryptoData, setCryptoData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [selectedOption, setSelectedOption] = useState('asc');
 
   const handleSearch = async (event) => {
-      const response = await fetch(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
-      const data = await response.json();
-      const filteredData = data.filter(item => item.symbol.toLowerCase().includes(event.target.value.toLowerCase()));
+      const filteredData = allData.filter(item => item.symbol.toLowerCase().includes(event.target.value.toLowerCase()));
       setCryptoData(filteredData);
       console.log(filteredData);
     };
@@ -25,6 +24,7 @@ function Start() {
       const response = await fetch(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
       const data = await response.json();
       setCryptoData(data);
+      setAllData(data);
       console.log(data);
     }
 
