@@ -10,6 +10,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    user-select: none;
+}
+
+.category:hover {
+    cursor: pointer;
 }
 
 .category>p {

@@ -17,5 +17,9 @@
     width: 15%;
     display: flex;
     align-items: center;
-    gap: 0.2em;
+    gap: 0.4em;
+}
+
+.market img{
+    height: 2.1em;
 }
