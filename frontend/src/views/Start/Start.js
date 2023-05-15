@@ -12,6 +12,14 @@ function Start() {
   const [cryptoData, setCryptoData] = useState([]);
   const [selectedOption, setSelectedOption] = useState('asc');
 
+  const handleSearch = async (event) => {
+      const response = await fetch(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
+      const data = await response.json();
+      const filteredData = data.filter(item => item.symbol.toLowerCase().includes(event.target.value));
+      setCryptoData(filteredData);
+      console.log(filteredData);
+    };
+
   useEffect(() => {
     async function fetchCryptoData() {
       const response = await fetch(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
@@ -42,7 +50,7 @@ function Start() {
           <p onClick={handleSellButtonClick}>Sell</p>
           <hr />
         </div>
-        <Input placeholder='search...' type='text' inputIcon={Lupa} width='30%'></Input>
+        <Input placeholder='search...' type='text' inputIcon={Lupa} onChange={handleSearch} width='30%'></Input>
       </div>
       <div className={style.content}>
         <Box>
