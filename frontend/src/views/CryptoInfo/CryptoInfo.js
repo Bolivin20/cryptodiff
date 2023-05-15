@@ -3,8 +3,8 @@ import React from 'react';
 import Box from '../../components/Box/Box';
 import Page from '../../components/Page/Page';
 import Binance from '../../images/Binance.svg';
-import Kraken from '../../images/Kraken.svg';
-import Coinbase from '../../images/Coinbase.svg';
+import Huobi from '../../images/Huobi.svg';
+import Bitstamp from '../../images/Bitstamp.svg';
 
 
 function Info() {
@@ -29,7 +29,7 @@ function Info() {
                     </div>
                     <div className={style.label}>
                         <div className={style.market}>
-                            <img src={Coinbase} alt="binance-icon"></img>
+                            <img src={Huobi} alt="binance-icon"></img>
                             <p>Binance</p>
                         </div>
                         <p>$20,614.78</p>
@@ -37,7 +37,7 @@ function Info() {
                     </div>
                     <div className={style.label}>
                         <div className={style.market}>
-                            <img src={Kraken} alt="binance-icon"></img>
+                            <img src={Bitstamp} alt="binance-icon"></img>
                             <p>Binance</p>
                         </div>
                         <p>$20,614.78</p>

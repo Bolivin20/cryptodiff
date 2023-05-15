@@ -5,7 +5,7 @@ import Lupa from '../../images/lupa.svg';
 import EmptyStar from '../../images/empty_star.svg';
 import Page from '../../components/Page/Page';
 import CryptoLabel from '../../components/CryptoLabel/CryptoLabel';
-import Arrow from '../../images/arrow.svg';
+import Arrow from '../../images/Arrow.svg';
 import React, { useEffect, useState } from 'react';
 
 function Start() {
@@ -42,14 +42,14 @@ function Start() {
   return (
     <Page>
       <div className={style.searchBar}>
-        <div className={style.category}>
-          <p onClick={handleBuyButtonClick}>Buy</p>
-          <hr />
-        </div>
-        <div className={style.category}>
-          <p onClick={handleSellButtonClick}>Sell</p>
-          <hr />
-        </div>
+          <div className={style.category}>
+              <p onClick={handleBuyButtonClick}>Buy</p>
+              <hr style={{visibility: selectedOption === 'asc' ? 'visible' : 'hidden'}}/>
+          </div>
+          <div className={style.category}>
+              <p onClick={handleSellButtonClick}>Sell</p>
+              <hr style={{visibility: selectedOption === 'desc' ? 'visible' : 'hidden'}}/>
+          </div>
         <Input placeholder='search...' type='text' inputIcon={Lupa} onChange={handleSearch} width='30%'></Input>
       </div>
       <div className={style.content}>
@@ -59,9 +59,8 @@ function Start() {
             <p>Cryptocurrency</p>
             <p>Stock Market</p>
             <p>Buy Price</p>
-            <img src={Arrow} alt="arrow-icon" style={{ visibility: 'hidden' }}></img>
+            <img src={Arrow} alt="arrow-icon" style={{visibility: 'hidden', height: "2.1em"}}></img>
           </div>
-          <div>
             {cryptoData.map((crypto, index) => (
               <CryptoLabel
                 key={index}
@@ -69,7 +68,6 @@ function Start() {
                 pricesMap={crypto.pricesMap}
               />
             ))}
-          </div>
         </Box>
       </div>
     </Page>
