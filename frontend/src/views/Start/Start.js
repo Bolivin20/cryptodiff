@@ -15,7 +15,7 @@ function Start() {
   const handleSearch = async (event) => {
       const response = await fetch(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
       const data = await response.json();
-      const filteredData = data.filter(item => item.symbol.toLowerCase().includes(event.target.value));
+      const filteredData = data.filter(item => item.symbol.toLowerCase().includes(event.target.value.toLowerCase()));
       setCryptoData(filteredData);
       console.log(filteredData);
     };
