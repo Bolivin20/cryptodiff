@@ -7,7 +7,7 @@ import Binance from '../../images/Binance.svg';
 import Huobi from '../../images/Huobi.svg';
 import Bitstamp from '../../images/Bitstamp.svg';
 import Arrow from '../../images/Arrow.svg';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const markets = {
     bitstamp: Bitstamp,
@@ -16,7 +16,7 @@ const markets = {
 };
 
 function CryptoLabel(props) {
-    const {symbol, pricesMap} = props;
+    const {symbol, pricesMap, buyPrices, sellPrices} = props;
     const [showPrices, setShowPrices] = useState(false);
     const [starClicked, setStarClicked] = useState(false);
     const [jwtToken, setJwtToken] = useState('');
@@ -65,6 +65,12 @@ function CryptoLabel(props) {
 
     const handleArrowClick = () => {
         setShowPrices(!showPrices);
+        console.log(exchanges);
+        console.log(prices);
+    };
+
+    const handleRedirection = () => {
+        navigate(`/info/${symbol}`, {state: {sellPrices, buyPrices}});
     };
 
     return (
@@ -75,7 +81,7 @@ function CryptoLabel(props) {
                     alt="star-icon"
                     onClick={handleStarClick}
                 />
-                <p>{symbol.toUpperCase()}</p>
+                <p onClick={handleRedirection} className={style.symbol}>{symbol.toUpperCase()}</p>
                 <div className={style.market}>
                     <img src={markets[exchanges[0]]} alt="market-icon"/>
                     <p>{capitalizeFirstLetter(exchanges[0])}</p>

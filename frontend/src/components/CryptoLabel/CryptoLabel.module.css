@@ -60,3 +60,12 @@
         transform: translateY(0);
     }
 }
+
+.info {
+    color:white;
+    text-decoration: none;
+}
+
+.symbol:hover {
+    cursor: pointer;
+}

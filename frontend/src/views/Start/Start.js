@@ -12,8 +12,11 @@ import axios from 'axios';
 function Start() {
     const [cryptoData, setCryptoData] = useState([]);
     const [allData, setAllData] = useState([]);
-    const [selectedOption, setSelectedOption] = useState('asc');
+    const [buyData, setBuyData] = useState([]);
+    const [sellData, setSellData] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('buy');
     const [searchValue, setSearchValue] = useState('');
+    const [loading, setLoading] = useState(true);
 
     const handleSearch = (event) => {
         const value = event.target.value;
@@ -21,20 +24,25 @@ function Start() {
     };
 
     useEffect(() => {
-        async function fetchCryptoData() {
+        async function fetchData() {
             try {
-                const response = await axios.get(`http://localhost:8080/api/prices/${selectedOption === 'asc' ? 'asc' : 'desc'}`);
-                const data = response.data;
-                setAllData(data);
-                console.log(data);
+                const buyResponse = await axios.get('http://localhost:8080/api/prices/asc');
+                const sellResponse = await axios.get('http://localhost:8080/api/prices/desc');
+                const buyData = buyResponse.data;
+                const sellData = sellResponse.data;
+                setBuyData(buyData);
+                setSellData(sellData);
+                setCryptoData(selectedOption === 'buy' ? buyData : sellData);
+                setAllData(selectedOption === 'buy' ? buyData : sellData);
+                setLoading(false);
             } catch (error) {
                 console.log('Wystąpił błąd podczas pobierania danych.');
                 console.log(error);
             }
         }
 
-        fetchCryptoData();
-    }, [selectedOption]);
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const filteredData = allData.filter((item) =>
@@ -44,11 +52,15 @@ function Start() {
     }, [searchValue, allData]);
 
     function handleBuyButtonClick() {
-        setSelectedOption('asc');
+        setSelectedOption('buy');
+        setCryptoData(buyData);
+        setSearchValue('');
     }
 
     function handleSellButtonClick() {
-        setSelectedOption('desc');
+        setSelectedOption('sell');
+        setCryptoData(sellData);
+        setSearchValue('');
     }
 
     return (
@@ -56,14 +68,20 @@ function Start() {
             <div className={style.searchBar}>
                 <div className={style.category}>
                     <p onClick={handleBuyButtonClick}>Buy</p>
-                    <hr style={{visibility: selectedOption === 'asc' ? 'visible' : 'hidden'}}/>
+                    <hr style={{visibility: selectedOption === 'buy' ? 'visible' : 'hidden'}}/>
                 </div>
                 <div className={style.category}>
                     <p onClick={handleSellButtonClick}>Sell</p>
-                    <hr style={{visibility: selectedOption === 'desc' ? 'visible' : 'hidden'}}/>
+                    <hr style={{visibility: selectedOption === 'sell' ? 'visible' : 'hidden'}}/>
                 </div>
-                <Input placeholder='search...' type='text' inputIcon={Lupa} onChange={handleSearch} value={searchValue}
-                       width='30%'/>
+                <Input
+                    placeholder='search...'
+                    type='text'
+                    value={searchValue}
+                    inputIcon={Lupa}
+                    onChange={handleSearch}
+                    width='30%'
+                />
             </div>
             <div className={style.content}>
                 <Box>
@@ -74,13 +92,32 @@ function Start() {
                         <p>Buy Price</p>
                         <img src={Arrow} alt="arrow-icon" style={{visibility: 'hidden', height: "2.1em"}}/>
                     </div>
-                    {cryptoData.map((crypto) => (
-                        <CryptoLabel
-                            key={crypto.symbol}
-                            symbol={crypto.symbol}
-                            pricesMap={crypto.pricesMap}
-                        />
-                    ))}
+                    {loading ? (
+                        <div className={style.loading}>Loading...</div>
+                    ) : (
+                        cryptoData.map((crypto) => {
+                            let buyPrices = null;
+                            let sellPrices = null;
+
+                            if (buyData.some((item) => item.symbol === crypto.symbol)) {
+                                buyPrices = buyData.find((item) => item.symbol === crypto.symbol).pricesMap;
+                            }
+
+                            if (sellData.some((item) => item.symbol === crypto.symbol)) {
+                                sellPrices = sellData.find((item) => item.symbol === crypto.symbol).pricesMap;
+                            }
+
+                            return (
+                                <CryptoLabel
+                                    key={crypto.symbol}
+                                    symbol={crypto.symbol}
+                                    pricesMap={crypto.pricesMap}
+                                    buyPrices={buyPrices}
+                                    sellPrices={sellPrices}
+                                />
+                            );
+                        })
+                    )}
                 </Box>
             </div>
         </Page>
