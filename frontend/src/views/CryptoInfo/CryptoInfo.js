@@ -1,14 +1,17 @@
 import style from './CryptoInfo.module.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '../../components/Box/Box';
 import Page from '../../components/Page/Page';
+import Chart from '../../components/Chart/Chart';
 import Binance from '../../images/Binance.svg';
 import Huobi from '../../images/Huobi.svg';
 import Bitstamp from '../../images/Bitstamp.svg';
 import {useParams, useLocation} from 'react-router-dom';
+import axios from "axios";
 
 
 function Info() {
+    const [chartData, setChartData] = useState([]);
 
     const markets = {
         bitstamp: Bitstamp,
@@ -16,21 +19,36 @@ function Info() {
         binance: Binance,
     };
 
+    const convertArrayToData = (array) => {
+        return array.map((item, index) => {
+            return {
+                index: index,
+                price: item,
+            };
+        });
+    };
+
     const {id} = useParams();
     const location = useLocation();
-    const {sellPrices, buyPrices} = location.state;
+    const {pricesMap} = location.state;
+    const exchanges = Object.keys(pricesMap);
 
-    function groupData(exchanges, buyPrices, sellPrices, buyExchanges) {
-        const groupedArray = [];
-        for (let i = 0; i < exchanges.length; i++) {
-            let index = buyExchanges.indexOf(exchanges[i]);
-            groupedArray.push({mp: exchanges[i], buyPrice: buyPrices[i], sellPrice: sellPrices[index]});
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://localhost:8080/api/historical/' + id);
+                const historyPrices = Object.values(response.data);
+                setChartData(historyPrices);
+                console.log(chartData);
+            } catch (error) {
+                console.log('Wystąpił błąd podczas pobierania danych.');
+                console.log(error);
+            }
         }
-        return groupedArray;
-    }
 
-    const correctData = groupData(Object.keys(buyPrices), Object.values(buyPrices), Object.values(sellPrices), Object.keys(sellPrices));
-    console.log(correctData);
+        fetchData();
+    }, []);
+
 
     const capitalizeFirstLetter = (string) => {
         return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
@@ -43,26 +61,25 @@ function Info() {
                     <h1 className={style.cryptoTitle}>{id.toUpperCase()}</h1>
                     <div className={style.label}>
                         <p>Stock Market</p>
-                        <p>Buy Price</p>
-                        <p>Sell Price</p>
+                        <p>Price</p>
                     </div>
                     {
-                        correctData.map((crypto) => {
+                        exchanges.map((crypto) => {
                             return (
-                                <div className={style.label}>
+                                <div key={crypto} className={style.label}>
                                     <div className={style.market}>
-                                        <img src={markets[crypto.mp]} alt="market-icon"></img>
-                                        <p>{capitalizeFirstLetter(crypto.mp)}</p>
+                                        <img src={markets[crypto]} alt="market-icon"></img>
+                                        <p>{capitalizeFirstLetter(crypto)}</p>
                                     </div>
-                                    <p>${crypto.buyPrice}</p>
-                                    <p>${crypto.sellPrice}</p>
+                                    <p>${pricesMap[crypto]}</p>
                                 </div>
                             );
                         })
                     }
                 </Box>
                 <Box width='40%'>
-                    Wykres
+                    <h1 className={style.chartTitle}>Last 30 day price history</h1>
+                    <Chart data={convertArrayToData(chartData)}/>
                 </Box>
             </div>
         </Page>

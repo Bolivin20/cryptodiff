@@ -16,7 +16,7 @@ const markets = {
 };
 
 function CryptoLabel(props) {
-    const {symbol, pricesMap, buyPrices, sellPrices} = props;
+    const {symbol, pricesMap} = props;
     const [showPrices, setShowPrices] = useState(false);
     const [starClicked, setStarClicked] = useState(false);
     const [jwtToken, setJwtToken] = useState('');
@@ -70,7 +70,7 @@ function CryptoLabel(props) {
     };
 
     const handleRedirection = () => {
-        navigate(`/info/${symbol}`, {state: {sellPrices, buyPrices}});
+        navigate(`/info/${symbol}`, {state: {pricesMap}});
     };
 
     return (

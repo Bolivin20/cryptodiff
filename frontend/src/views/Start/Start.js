@@ -96,24 +96,12 @@ function Start() {
                         <div className={style.loading}>Loading...</div>
                     ) : (
                         cryptoData.map((crypto) => {
-                            let buyPrices = null;
-                            let sellPrices = null;
-
-                            if (buyData.some((item) => item.symbol === crypto.symbol)) {
-                                buyPrices = buyData.find((item) => item.symbol === crypto.symbol).pricesMap;
-                            }
-
-                            if (sellData.some((item) => item.symbol === crypto.symbol)) {
-                                sellPrices = sellData.find((item) => item.symbol === crypto.symbol).pricesMap;
-                            }
 
                             return (
                                 <CryptoLabel
                                     key={crypto.symbol}
                                     symbol={crypto.symbol}
                                     pricesMap={crypto.pricesMap}
-                                    buyPrices={buyPrices}
-                                    sellPrices={sellPrices}
                                 />
                             );
                         })
