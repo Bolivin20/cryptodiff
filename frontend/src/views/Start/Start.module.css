@@ -37,8 +37,10 @@
 
 .tableLable {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2em 5em 5em 2em 2em;
     justify-content: space-between;
+    align-items: center;
     color: white;
 }
 
