@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import style from './CryptoLabel.module.css';
 import EmptyStar from '../../images/empty_star.svg';
 import FilledStar from '../../images/filled_star.svg';
@@ -7,7 +6,7 @@ import Binance from '../../images/Binance.svg';
 import Huobi from '../../images/Huobi.svg';
 import Bitstamp from '../../images/Bitstamp.svg';
 import Arrow from '../../images/Arrow.svg';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const markets = {
     bitstamp: Bitstamp,
@@ -16,7 +15,7 @@ const markets = {
 };
 
 function CryptoLabel(props) {
-    const {symbol, pricesMap} = props;
+    const {subs, symbol, pricesMap} = props;
     const [showPrices, setShowPrices] = useState(false);
     const [starClicked, setStarClicked] = useState(false);
     const [jwtToken, setJwtToken] = useState('');
@@ -27,13 +26,21 @@ function CryptoLabel(props) {
      useEffect(() => {
          const jwtToken = localStorage.getItem('token');
          setJwtToken(jwtToken);
-     }, []);
+         if (subs.includes(symbol)) {
+            setStarClicked(true);
+        }
+        else
+        {
+            setStarClicked(false);
+        }
+     }, [symbol, subs]);
 
      const handleStarClick = () => {
       if (!jwtToken) {
         navigate('/api/auth/authenticate');
         return;
       }
+    
       setStarClicked(!starClicked);
       if (!starClicked) {
         const requestData = {

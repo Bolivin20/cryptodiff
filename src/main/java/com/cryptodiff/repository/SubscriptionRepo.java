@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface SubscriptionRepo extends JpaRepository<Subscription, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT id, symbol FROM subscription WHERE user_id= :user_id")
+    @Query(nativeQuery = true, value = "SELECT symbol FROM subscription WHERE user_id= :user_id")
     List<Object[]> findSymbolByUserId(@Param("user_id") Long id);
 
     @Modifying

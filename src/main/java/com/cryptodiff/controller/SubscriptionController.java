@@ -21,38 +21,13 @@ import java.util.List;
 @CrossOrigin
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
-    private final UserService userService;
 
     private final SubscriptionRepo subscriptionRepo;
 
-
-
-    public SubscriptionController(SubscriptionService subscriptionService, UserService userService, SubscriptionRepo subscriptionRepo) {
+    public SubscriptionController(SubscriptionService subscriptionService, SubscriptionRepo subscriptionRepo) {
         this.subscriptionService = subscriptionService;
-        this.userService = userService;
         this.subscriptionRepo = subscriptionRepo;
     }
-
-
-    @GetMapping("/SubscriptionsByUserId/{userId}")
-    public ResponseEntity<List<Object[]>> getAllSubscriptions(@PathVariable("userId") Long userid){
-        List<Object[]> subscriptions = subscriptionService.findSubscriptionByUserId(userid);
-        return new ResponseEntity<>(subscriptions, HttpStatus.OK);
-    }
-
-    @PostMapping("/addSubscription/{userId}")
-    public ResponseEntity<?> addSubscription(@RequestBody Subscription subscription, @PathVariable("userId") Long userid){
-        subscription.setUser(userService.findUserById(userid));
-        subscriptionService.addSubsciption(subscription);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/deleteSubscription/{id}")
-    public ResponseEntity<?> deleteSubscriptionById(@PathVariable("id") Long id){
-        subscriptionService.deleteSubscription(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
     @PostMapping("/api/add")
     public ResponseEntity<?> addSubscription(@RequestBody SubscriptionRequest subscription){
@@ -70,7 +45,6 @@ public class SubscriptionController {
     public ResponseEntity<?> deleteSubscription(@RequestBody SubscriptionRequest subscription){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        //subscriptionService.deleteSubscription(user, subscription.symbol());
         subscriptionRepo.deleteBySymbolAndUserId(subscription.symbol(), user.getId());
         return new ResponseEntity<>(HttpStatus.OK);
         }
