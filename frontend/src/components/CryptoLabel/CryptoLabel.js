@@ -24,39 +24,63 @@ function CryptoLabel(props) {
     const exchanges = Object.keys(pricesMap);
     const prices = Object.values(pricesMap);
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (!token) {
-    //         navigate('/api/auth/authenticate');
-    //     }
-    //     setJwtToken(token);
-    // }, []);
+     useEffect(() => {
+         const jwtToken = localStorage.getItem('token');
+         setJwtToken(jwtToken);
+     }, []);
 
-    const handleStarClick = () => {
-        setStarClicked(!starClicked);
+     const handleStarClick = () => {
+      if (!jwtToken) {
+        navigate('/api/auth/authenticate');
+        return;
+      }
+      setStarClicked(!starClicked);
+      if (!starClicked) {
         const requestData = {
-            symbol: symbol,
+          symbol: symbol,
         };
-        const endpoint = starClicked ? 'delete' : 'add';
-        axios
-            .post(`http://localhost:8080/user/api/${endpoint}`, requestData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(`Symbol ${endpoint === 'add' ? 'dodany' : 'usunięty'} pomyślnie.`);
-                } else {
-                    console.log(`Wystąpił błąd podczas ${endpoint === 'add' ? 'dodawania' : 'usuwanie'} symbolu.`);
-                    console.log(response);
-                }
-            })
-            .catch((error) => {
-                console.log('Wystąpił błąd podczas wysyłania żądania.');
-                console.log(error);
-            });
+        fetch('http://localhost:8080/user/api/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`, 
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Symbol dodany pomyślnie.');
+            } else {
+              console.log('Wystąpił błąd podczas dodawania symbolu.');
+              console.log(response);
+            }
+          })
+          .catch((error) => {
+            console.log('Wystąpił błąd podczas wysyłania żądania.');
+            console.log(error);
+          });
+      } else {
+        fetch('http://localhost:8080/user/api/delete', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify({ symbol: symbol }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Subskrypcja usunięta pomyślnie.');
+            } else {
+              console.log('Wystąpił błąd podczas usuwania subskrypcji.');
+              console.log(symbol);
+            }
+          })
+          .catch((error) => {
+            console.log('Wystąpił błąd podczas wysyłania żądania.');
+            console.log(error);
+          });
+      }
     };
 
     const capitalizeFirstLetter = (string) => {

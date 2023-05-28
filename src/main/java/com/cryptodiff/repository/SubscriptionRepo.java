@@ -13,13 +13,11 @@ import java.util.List;
 @Repository
 public interface SubscriptionRepo extends JpaRepository<Subscription, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT id, symbol FROM Subscription WHERE user_id= :user_id")
+    @Query(nativeQuery = true, value = "SELECT id, symbol FROM subscription WHERE user_id= :user_id")
     List<Object[]> findSymbolByUserId(@Param("user_id") Long id);
 
-    //usun rekord po symbol i id_user
-    //@Modifying
     @Modifying
-    @Query(nativeQuery = true, value = "DELETE FROM Subscription WHERE symbol = :symbol AND user_id = :user_id")
+    @Query(nativeQuery = true, value = "DELETE FROM subscription WHERE symbol = :symbol AND user_id = :user_id")
     void deleteBySymbolAndUserId(@Param("symbol") String symbol, @Param("user_id") Long id);
 
 }

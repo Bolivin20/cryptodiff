@@ -63,7 +63,7 @@ function Login() {
                 <Button text='Sign In'></Button>
                 <p className={style.errorMsg} onChange={(event)=>setErrorMsg(event.target.value)}>{errorMsg}</p>
                 </form>
-                <p className={style.buttonText}>Don&apos;t have an account ? <Link to='/api/auth/authenticate' className={style.link}>Sign up</Link></p>
+                <p className={style.buttonText}>Don&apos;t have an account ? <Link to='/api/auth/register' className={style.link}>Sign up</Link></p>
                 <div className={style.orBlock}>
                     <hr></hr>
                     Or
