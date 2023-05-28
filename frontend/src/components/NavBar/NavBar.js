@@ -15,7 +15,7 @@ function NavBar() {
             <Link className={style.logoLink} to='/'><Logo fontSize='2em' height='50em' /></Link>
             <div className={style.tabs}>
             <Link className={style.logoLink} to='/'><p>Ranking</p></Link>
-            <Link className={style.logoLink} to='/settings'><p>test@crypto.diff</p></Link>
+            <Link className={style.logoLink} to='/settings'><p>Settings</p></Link>
             <Link onClick={handleLogout} className={style.logoLink}><p>Log out</p></Link>
             </div>
         </div>

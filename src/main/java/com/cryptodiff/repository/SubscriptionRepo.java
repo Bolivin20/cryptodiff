@@ -20,4 +20,8 @@ public interface SubscriptionRepo extends JpaRepository<Subscription, Long> {
     @Query(nativeQuery = true, value = "DELETE FROM subscription WHERE symbol = :symbol AND user_id = :user_id")
     void deleteBySymbolAndUserId(@Param("symbol") String symbol, @Param("user_id") Long id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Subscription t WHERE t.user.id = :user_id")
+    void deleteSubscriptionsByUserId(@Param("user_id") Long userId);
 }

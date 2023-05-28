@@ -4,7 +4,7 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Letter from '../../images/letter.svg';
 import Padlock from '../../images/padlock.svg';
-import Google from '../../images/google.svg';
+//import Google from '../../images/google.svg';
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,15 @@ function Login() {
         setErrorMsg("Wrong email or password.");
       });
     };
-
+/*<div className={style.orBlock}>
+                    <hr></hr>
+                    Or
+                    <hr></hr>
+                </div>
+<div className={style.googleButton}>
+                    <img src={Google} alt="letter icon"></img>
+                    Log in with Google
+                </div>*/
     return (
         <div className={style.app}>
             <section className={style.bgImage}>
@@ -64,15 +72,6 @@ function Login() {
                 <p className={style.errorMsg} onChange={(event)=>setErrorMsg(event.target.value)}>{errorMsg}</p>
                 </form>
                 <p className={style.buttonText}>Don&apos;t have an account ? <Link to='/api/auth/register' className={style.link}>Sign up</Link></p>
-                <div className={style.orBlock}>
-                    <hr></hr>
-                    Or
-                    <hr></hr>
-                </div>
-                <div className={style.googleButton}>
-                    <img src={Google} alt="letter icon"></img>
-                    Log in with Google
-                </div>
             </section>
         </div>
     );
