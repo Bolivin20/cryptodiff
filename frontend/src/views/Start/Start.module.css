@@ -10,6 +10,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    user-select: none;
+}
+
+.category:hover {
+    cursor: pointer;
 }
 
 .category>p {
@@ -32,11 +37,19 @@
 
 .tableLable {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2em 5em 5em 2em 2em;
     justify-content: space-between;
+    align-items: center;
     color: white;
 }
 
 .tableLable>p {
     width: 15%;
+}
+
+.loading {
+    margin-top: 5em;
+    height: 10em;
+    color: white;
 }

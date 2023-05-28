@@ -17,17 +17,17 @@ const router = createBrowserRouter([
     errorElement: <div>404</div>
   },
   {
-    path: '/login',
+    path: '/api/auth/authenticate',
     element: <Login />,
     errorElement: <Start />
   },
   {
-    path: '/signup',
+    path: '/api/auth/register',
     element: <Signup />,
     errorElement: <Start />
   },
   {
-    path: '/info',
+    path: '/info/:id',
     element: <Info />,
     errorElement: <Start />
   },

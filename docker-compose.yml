@@ -7,5 +7,9 @@ services:
       - 3307:3306
     environment:
       MYSQL_DATABASE: cryptodiff
+<<<<<<< HEAD
       MYSQL_ROOT_PASSWORD: root
 
+=======
+      MYSQL_ROOT_PASSWORD: root
+>>>>>>> integration

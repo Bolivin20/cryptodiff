@@ -1,6 +1,7 @@
 package com.cryptodiff.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Subscription {
@@ -14,6 +15,7 @@ public class Subscription {
     private String symbol;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

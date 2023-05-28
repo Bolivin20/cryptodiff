@@ -1,5 +1,6 @@
 package com.cryptodiff.marketMaps;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -36,6 +37,7 @@ public class MarketsManager {
                     if (markets.get(j).containsKey(key)) {
                         prices.put(namesOfMarkets.get(j), markets.get(j).get(key));
                         revertPrices.put(namesOfMarkets.get(j), markets.get(j).get(key));
+                        markets.get(j).remove(key);
                     }
                 }
 
@@ -49,9 +51,9 @@ public class MarketsManager {
         Collections.sort(revertCurrenciesToSet, Comparator.reverseOrder());
     }
 
-    @Scheduled(fixedDelay = 900000, initialDelay = 1)
+    @Scheduled(fixedDelay = 2, initialDelay = 1)
+    @Profile("!test")
     public void getDataFromMarkets() {
-
         HashMap<String, BigDecimal> binance = binanceMarket.getMarketPrices();
         HashMap<String, BigDecimal> huobi = huobiMarket.getMarketPrices();
         HashMap<String, BigDecimal> bitstamp = bitstampMarket.getMarketPrices();

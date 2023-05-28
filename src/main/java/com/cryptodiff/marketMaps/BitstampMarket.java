@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Component
-public class BitstampMarket  extends MarketMaps{
+public class BitstampMarket extends MarketMaps {
 
     private static final String BITSTAMP_API_URL = "https://www.bitstamp.net/api/v2/ticker/";
 
@@ -43,13 +43,12 @@ public class BitstampMarket  extends MarketMaps{
             for (int i = 0; i < data.length(); i++) {
                 JSONObject obj = data.getJSONObject(i);
                 String pair = obj.getString("pair");
-                BigDecimal open = obj.getBigDecimal("open");
+                BigDecimal open = obj.getBigDecimal("last");
                 if (pair.endsWith("USD")) {
                     String[] parts = pair.split("/");
                     bitstampPrices.put(parts[0].toLowerCase(), open);
                 }
             }
-
 
 
         } catch (Exception e) {
@@ -58,14 +57,5 @@ public class BitstampMarket  extends MarketMaps{
         return bitstampPrices;
     }
 
-//    @Override
-//    public void getOnlyUsdtPrices(HashMap<String, Double> marketPrices) {
-//        Iterator<Map.Entry<String, Double>> it = marketPrices.entrySet().iterator();
-//        while (it.hasNext()) {
-//            Map.Entry<String, Double> entry = it.next();
-//            if (!entry.getKey().endsWith("USD")) {
-//                it.remove();
-//            }
-//        }
-//    }
+
 }

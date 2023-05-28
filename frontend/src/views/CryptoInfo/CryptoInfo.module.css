@@ -33,5 +33,14 @@
     width: 20%;
     display: flex;
     align-items: center;
-    gap: 0.2em;
+    gap: 0.5em;
+}
+
+.market > img {
+    height: 2.5em;
+}
+
+.chartTitle {
+    color: white;
+    margin-bottom: 1em;
 }

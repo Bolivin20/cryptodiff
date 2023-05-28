@@ -11,7 +11,11 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
+<<<<<<< HEAD
     database-platform: org.hibernate.dialect.MySQLDialect
+=======
+    #database-platform: org.hibernate.dialect.MySQL5Dialect
+>>>>>>> integration
 
 application:
   security:
