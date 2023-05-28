@@ -15,7 +15,6 @@ public class Subscription {
     private String symbol;
 
     @ManyToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

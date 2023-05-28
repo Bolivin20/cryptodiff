@@ -41,12 +41,13 @@ function Delete() {
             .then(response => {
               if (response.ok) {
                 alert("Account deleted");
+                localStorage.removeItem('token');
                 navigate('/api/auth/authenticate');
               }
             })
             .catch(error => {
-
               alert("Error")
+              console.log(error);
             });
         }
 
