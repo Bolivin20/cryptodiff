@@ -35,7 +35,7 @@ function Start() {
           return;
         }
 
-        const response = await fetch('https://cryptodiff-production.up.railway.app//user/api/get', {
+        const response = await fetch('http://localhost:8080/user/api/get', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -62,8 +62,8 @@ function Start() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const buyResponse = await axios.get('https://cryptodiff-production.up.railway.app//api/prices/asc');
-        const sellResponse = await axios.get('https://cryptodiff-production.up.railway.app//api/prices/desc');
+        const buyResponse = await axios.get('http://localhost:8080/api/prices/asc');
+        const sellResponse = await axios.get('http://localhost:8080/api/prices/desc');
         const buyData = buyResponse.data;
         const sellData = sellResponse.data;
         setBuyData(buyData);
