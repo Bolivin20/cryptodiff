@@ -20,6 +20,9 @@
     align-items: center;
     width: 70%;
     height: 2em;
-    padding: 0.5em;
-    padding-left: 1em;
+    padding: 0.5em 0.5em 0.5em 1em;
 }
+
+.eyeIcon {
+    justify-self: end;
+ }

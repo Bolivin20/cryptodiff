@@ -9,7 +9,7 @@ function Input(props) {
     const { placeholder, type, title, inputIcon, width, value, onChange } = props;
     let secondIcon;
     if (type === 'password') {
-        secondIcon = <img src={Eye} alt="letter icon"></img>;
+        secondIcon = <img className={style.eyeIcon} src={Eye} alt="eye icon"></img>;
     }
 
     return (

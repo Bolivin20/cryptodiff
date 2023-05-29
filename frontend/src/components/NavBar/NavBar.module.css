@@ -14,4 +14,9 @@
 .logoLink {
     text-decoration: none;
     color: #847777;
+    align-self: start;
+}
+
+.activeLink {
+    color: white;
 }
