@@ -3,6 +3,10 @@ spring:
     url: jdbc:mysql://root:iA0TpA9rV1ASuceRFNe4@containers-us-west-5.railway.app:7855/railway
     username: root
     password: iA0TpA9rV1ASuceRFNe4
+  mvc:
+    cors:
+      allowed-origins: https://cryptodiff-frontend-production.up.railway.app
+      allowed-methods: GET, POST, PUT, DELETE
   jpa:
     hibernate:
       ddl-auto: update
