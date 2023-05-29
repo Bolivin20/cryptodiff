@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 
 function handleLogout() {
     localStorage.removeItem('token');
-    window.location.reload();
+    window.location.pathname = '/';
 }
 
 function NavBar() {
@@ -30,9 +30,7 @@ function NavBar() {
                     </Link>
                 )}
                 {isLoggedIn ? (
-                    <Link onClick={handleLogout} className={style.logoLink} to='/'>
-                        <Button text='Log Out' width='100%' marginTop='0em'/>
-                    </Link>
+                    <Button onClick={handleLogout} text='Log Out' width='100%' marginTop='0em'/>
                 ) : (
                     <Link className={style.logoLink} to='/api/auth/authenticate'>
                         <Button text='Sign In' width='100%' marginTop='0em'/>

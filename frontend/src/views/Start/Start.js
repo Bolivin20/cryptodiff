@@ -28,8 +28,8 @@ function Start() {
     useEffect(() => {
         const fetchSubs = async () => {
             try {
-                const jwtToken = localStorage.getItem('token');
-                setJwtToken(jwtToken);
+                const token = localStorage.getItem('token');
+                setJwtToken(token);
 
                 if (!jwtToken) {
                     return;
@@ -56,7 +56,7 @@ function Start() {
         };
 
         fetchSubs();
-    }, []);
+    }, [jwtToken]);
 
     useEffect(() => {
         async function fetchData() {

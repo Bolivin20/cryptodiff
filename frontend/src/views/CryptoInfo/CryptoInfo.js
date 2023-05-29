@@ -47,7 +47,7 @@ function Info() {
         }
 
         fetchData();
-    }, []);
+    }, [chartData, id]);
 
 
     const capitalizeFirstLetter = (string) => {
