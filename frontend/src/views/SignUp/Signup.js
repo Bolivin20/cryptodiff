@@ -56,32 +56,40 @@ function Signup() {
         setErrorMsg("");
       }, [validPassword, validEmail]);
 
-    const sendRegisterRequest=(event) => 
-  {
-      event.preventDefault();
-      const data = { 
-        email:email,
-        password:password,
-      };
+      const sendRegisterRequest = (event) => {
+        event.preventDefault();
+        const data = {
+            email: email,
+            password: password,
+        };
     
-      fetch("http://localhost:8080/api/auth/register", {
-        method: "POST", 
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        return response.json();
-        }).then((data) => {
-            localStorage.setItem("token", data.access_token);
-            navigate("/"); 
-        }).catch((error) => {
-            console.log("Error: " + error);
-        });
+        fetch("http://localhost:8080/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 403) {
+                        throw new Error("Email jest już zajęty!");
+                    } else {
+                        throw new Error(response.status);
+                    }
+                }
+                return response.json();
+            })
+            .then((data) => {
+                localStorage.setItem("token", data.access_token);
+                navigate("/");
+            })
+            .catch((error) => {
+                console.log("Error: " + error);
+                setErrorMsg(error.message);
+            });
     };
+    
 /*<div className={style.orBlock}>
                     <hr></hr>
                     Or
